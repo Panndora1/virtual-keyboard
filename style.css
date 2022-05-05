@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 6%;
+    width: 950px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 52px;
+    height: 52px;
+    background-color: rgb(186, 206, 223);
+    border: 1px solid rgb(55, 63, 69);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.Button-Backspacekey,
+.Button-CapsLockkey,
+.Button-Enterkey,
+.Button-Shiftkey {
+    width: 114px;
+}
+
+.Button-Spacekey {
+    width: 434px;
+}
+
+.keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 960px;
+    padding-top: 10px;
+}
+
+.textArea {
+    width: 960px;
+}
