@@ -7,10 +7,14 @@
 
 .container {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     margin: auto;
     margin-top: 6%;
-    width: 950px;
+    width: 960px;
+
+    
 }
 
 .button {
@@ -19,17 +23,33 @@
     align-items: center;
     width: 52px;
     height: 52px;
-    background-color: rgb(186, 206, 223);
-    border: 1px solid rgb(55, 63, 69);
-    border-radius: 10px;
+    background: linear-gradient(180deg, #9E9E9E 0%, #dbdbdb 100%);
+    box-shadow: inset 0px 0px 0px 2.4px #dbdbdb83, 0px 0px 15px rgba(0, 0, 0, 0.25);
+    border-radius: 25px;
     cursor: pointer;
+    color: rgb(59, 59, 59);
 }
 
 .Button-Backspacekey,
 .Button-CapsLockkey,
 .Button-Enterkey,
 .Button-Shiftkey {
-    width: 114px;
+    width: 120px;
+
+    
+}
+/*
+.Button-◂key,
+.Button-▾key,
+.Button-▸key,
+.Button-▴key {
+    background: linear-gradient(180deg, #82B375 0%, #B1DFA5 100%);
+    box-shadow: inset 0px 0px 0px 2.4px #a0d2929d, 0px 0px 15px rgba(0, 0, 0, 0.25);
+}
+*/
+.active {
+    background: linear-gradient(180deg, #82B375 0%, #B1DFA5 100%);
+    box-shadow: inset 0px 0px 0px 2.4px #a0d2929d, 0px 0px 15px rgba(0, 0, 0, 0.25);
 }
 
 .Button-Spacekey {
@@ -38,12 +58,27 @@
 
 .keyboard {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     gap: 10px;
     width: 960px;
-    padding-top: 10px;
+    padding: 30px;
+    margin-top: 28px;
+
+    background: linear-gradient(180deg, #A5A4A5 0%, #C1C1C1 76.51%);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.65), inset 0px 14px 20px rgba(0, 0, 0, 0.35);
+    border-radius: 58px;
+
+    filter: drop-shadow(0px -12px 0px rgba(0, 0, 0, 0.25));
 }
 
 .textArea {
     width: 960px;
 }
+
+p {
+    user-select: none;
+}
+
