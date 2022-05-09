@@ -79,9 +79,11 @@ p {
 .title {
     text-align: center;
     margin-top: 3%;
+
 }
 
 .help {
     text-align: center;
     margin-top: 10px;
+    font-size: 1.2em;
 }
