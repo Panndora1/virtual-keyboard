@@ -168,7 +168,7 @@ class Button {
 
         } else if(this.el.className == 'Button-Winkey button active' ||
         this.el.className == 'Button-Delkey button active') {
-            textArea.textContent = textArea.textContent;
+            textArea.textContent;
             isCtrl = false;
 
         } else if(this.el.className == 'Button-Tabkey button active') {
