@@ -9,12 +9,24 @@ textArea.className = 'textarea'
 textArea.rows = 10
 textArea.cols = 126
 containerForAllKeyboard.append(textArea)
-
+document.body.append(containerForAllKeyboard)
 
 //создаем контейнер с клавишами клавиатуры
 let keyboard = document.createElement('div')
 keyboard.className = 'keyboard';
 containerForAllKeyboard.append(keyboard)
+
+//создаем наазвание перед клавиатурой
+let titleKeyboard = document.createElement('h1')
+titleKeyboard.className = 'title';
+titleKeyboard.innerText = 'RSS Виртуальная клавиатура'
+document.body.prepend(titleKeyboard)
+
+//создаем подсказку для смены раскладки
+let helpInfo = document.createElement('p')
+helpInfo.className = 'help'
+helpInfo.innerText = 'Для смены языка на Windows нажмите Ctrl + Alt'
+document.body.append(helpInfo)
 
 //создаем кнопки клавиатуры английской и русской раскладки
 
@@ -24,7 +36,7 @@ let keyboardBattonsEng = ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
 
 let keyboardBattonsRu = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab', 'й', 'ц', 'у', 'к', 'е', 
 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del', 'CapsLock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter', 'Shift', 
-'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', 'up', 'Shift', 'Ctrl', 'Win', 'Alt', 'Space', 'Alt', 'Left', 'Down', 'Right', 'Ctrl']
+'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '▴', 'Shift', 'Ctrl', 'Win', 'Alt', ' ', 'Alt', '◂', '▾', '▸', 'Ctrl']
 
 let keyCodeEng = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 
 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 
@@ -35,11 +47,12 @@ let keyCodeEng = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5',
 
 //создаем флаги
 
-let isCaps = false;
-let isShift = false;
-let isCtrl = false;
+let [isCaps, isShift, isCtrl, flag] = [false, false, false, false];
 
 let lang = 'en';
+//lang = localStorage.getItem('lang')
+
+
 
 let key;
 let keys = []
@@ -60,7 +73,8 @@ class Button {
     }
 
     mouseMoveKeyup() {
-        this.el.classList.remove('active')
+        this.el.classList.remove('active');
+        isShift = false
     }
 
     mouseMove() {
@@ -73,14 +87,16 @@ class Button {
         })
     }
 
-
     clickKeyDown() {
+
         if(this.el.className == 'Button-Spacekey button active') {
             textArea.textContent += ' ';
             isCtrl = false;
+
         } else if (this.el.className == 'Button-Enterkey button active') {
             textArea.textContent += '\n';
             isCtrl = false;
+
         } else if (this.el.className == 'Button-CapsLockkey button active') {
             if (isCaps == false) {
                 isCaps = true;
@@ -92,19 +108,29 @@ class Button {
             }
 
             isCtrl = false;
+
         } else if (this.el.className == 'Button-Backspacekey button active') {
             textArea.textContent = textArea.textContent.slice(0, textArea.textContent.length-1);
             isCtrl = false;
+
         } else if (this.el.className == 'Button-Shiftkey button active') {
            isShift = true;
+           flag = true;
            isCtrl = false;
+
         } else if (this.el.className == 'Button-Ctrlkey button active') {
             isCtrl = true;
 
         } else if (this.el.className == 'Button-Altkey button active') {
             if(lang == 'en' && isCtrl == true) {
+        
                 lang = 'ru';
-                keyboard.innerHTML = `<div></div>`;
+               // localStorage.removeItem('lang')
+                //localStorage.setItem('lang', lang)
+                //lang = localStorage.getItem('lang')
+               // console.log(language, lang)
+
+                keyboard.innerHTML = ``;
                 keys = [];
                 for(let i = 0; i < keyboardBattonsRu.length; i++) {
                     key = new Button(`Button-${keyboardBattonsEng[i]}key`, keyboardBattonsRu[i])
@@ -113,13 +139,19 @@ class Button {
 
                 keys.forEach(k => {
                     k.mouseMove();
-                    k.clickKey()
-                    
-                    
-                })
+                    k.clickKey()                    
+                }) 
+
             } else if (lang == 'ru' && isCtrl == true) {
-                lang == 'en'
-                keyboard.innerHTML = `<div></div>`;
+                console.log('1')
+               
+                lang = 'en'
+                //localStorage.removeItem('lang')
+                //localStorage.setItem('lang', lang)
+                //lang = localStorage.getItem('lang')
+               // console.log(language, lang)
+
+                keyboard.innerHTML = ``;
                 keys = []
                 for(let i = 0; i < keyboardBattonsEng.length; i++) {
                     key = new Button(`Button-${keyboardBattonsEng[i]}key`, keyboardBattonsEng[i]);
@@ -129,33 +161,42 @@ class Button {
                 keys.forEach(k => {
                     k.mouseMove();
                     k.clickKey()
-                    
-                    
                 })
             }
 
             isCtrl = false;
+
+        } else if(this.el.className == 'Button-Winkey button active' ||
+        this.el.className == 'Button-Delkey button active') {
+            textArea.textContent = textArea.textContent;
+            isCtrl = false;
+
+        } else if(this.el.className == 'Button-Tabkey button active') {
+            textArea.textContent += '   ';
+            isCtrl = false;
+
         } else {
             if (isCaps === true) {
-                if(isShift === true) {
-                    textArea.textContent += this.el.textContent.toLowerCase();
+                if(isShift === true || flag == true) {
+                    textArea.textContent += this.el.textContent.toLowerCase()
                 } else {
                     textArea.textContent += this.el.textContent.toUpperCase();
                 }
 
-                isShift = false
+                flag = false
+
             } else if (isCaps === false) {
-                if(isShift === true) {
+                if(isShift === true || flag == true) {
                     textArea.textContent += this.el.textContent.toUpperCase();
                 } else {
                     textArea.textContent += this.el.textContent.toLowerCase();
                 }
                 
-                isShift = false
+                flag = false
             }
 
             isCtrl = false;
-        }
+        }   
     }
 
     clickKey() {
@@ -167,15 +208,14 @@ class Button {
 
 //Создаем кнопки английской или русской раскладки раскладки
 
-
-
 function createButtons() {
-    if(lang = 'en') {
+
+    if(lang == 'en') {
         for(let i = 0; i < keyboardBattonsEng.length; i++) {
             key = new Button(`Button-${keyboardBattonsEng[i]}key`, keyboardBattonsEng[i]);
             keys.push(key)
         }
-    } else if(lang = 'ru') {
+    } else if(lang == 'ru') {
         for(let i = 0; i < keyboardBattonsRu.length; i++) {
             key = new Button(`Button-${keyboardBattonsEng[i]}key`, keyboardBattonsRu[i])
         }
@@ -193,21 +233,23 @@ keys.forEach(k => {
 
 //связываем виртуальную клавиатуру с реальной
 
+function keyAction() {
+    document.addEventListener('keydown', key => {
+        if (keyCodeEng.includes(key.code)) {
+            let index = keyCodeEng.indexOf(key.code);
+            
+            keys[index].mouseMoveKeydown()
+            keys[index].clickKeyDown()
+        }
+    })
+    
+    document.addEventListener('keyup', key => {
+        if (keyCodeEng.includes(key.code)) {
+            let index = keyCodeEng.indexOf(key.code);
+            
+            keys[index].mouseMoveKeyup()
+        }
+    })
+}
 
-document.addEventListener('keydown', key => {
-    if (keyCodeEng.includes(key.code)) {
-        let index = keyCodeEng.indexOf(key.code);
-        
-        keys[index].mouseMoveKeydown()
-        keys[index].clickKeyDown()
-    }
-})
-
-document.addEventListener('keyup', key => {
-    if (keyCodeEng.includes(key.code)) {
-        let index = keyCodeEng.indexOf(key.code);
-        
-        keys[index].mouseMoveKeyup()
-    }
-})
-
+keyAction()
