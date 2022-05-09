@@ -8,6 +8,7 @@ let textArea = document.createElement('textarea');
 textArea.className = 'textarea'
 textArea.rows = 10
 textArea.cols = 126
+textArea.placeholder = 'Type something...'
 containerForAllKeyboard.append(textArea)
 document.body.append(containerForAllKeyboard)
 
@@ -50,9 +51,6 @@ let keyCodeEng = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5',
 let [isCaps, isShift, isCtrl, flag] = [false, false, false, false];
 
 let lang = 'en';
-//lang = localStorage.getItem('lang')
-
-
 
 let key;
 let keys = []
@@ -114,8 +112,8 @@ class Button {
             isCtrl = false;
 
         } else if (this.el.className == 'Button-Shiftkey button active') {
+            flag = true;
            isShift = true;
-           flag = true;
            isCtrl = false;
 
         } else if (this.el.className == 'Button-Ctrlkey button active') {
@@ -125,7 +123,7 @@ class Button {
             if(lang == 'en' && isCtrl == true) {
         
                 lang = 'ru';
-               // localStorage.removeItem('lang')
+                //localStorage.removeItem('lang')
                 //localStorage.setItem('lang', lang)
                 //lang = localStorage.getItem('lang')
                // console.log(language, lang)
@@ -142,9 +140,7 @@ class Button {
                     k.clickKey()                    
                 }) 
 
-            } else if (lang == 'ru' && isCtrl == true) {
-                console.log('1')
-               
+            } else if (lang == 'ru' && isCtrl == true) {               
                 lang = 'en'
                 //localStorage.removeItem('lang')
                 //localStorage.setItem('lang', lang)
@@ -183,7 +179,7 @@ class Button {
                     textArea.textContent += this.el.textContent.toUpperCase();
                 }
 
-                flag = false
+               flag = false
 
             } else if (isCaps === false) {
                 if(isShift === true || flag == true) {
@@ -221,6 +217,8 @@ function createButtons() {
         }
     }
 }
+
+window.localStorage.getItem('lang')
 
 createButtons()
 
